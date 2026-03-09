@@ -12,6 +12,8 @@ Myllo a **Pixal** Art drawing Software.
   <img src="https://i.postimg.cc/76F8bwm3/diagram-(5).png" width="320">
 </p>
 
+diogram Created With [llyra] by xermendaz (https://llyra.netlify.app/)
+
 ## What's Different With Myllo
 
 Myllo’s phone and PC versions are designed as **clean, responsive pixel art software**. The PC version includes controls you won’t find in other software like *Aseprite*. It uses **WASD keys** on your keyboard—similar to a game—which allows you to control your cursor with much greater precision.  
