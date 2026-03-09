@@ -31,7 +31,7 @@ Pixel art isn’t just art it’s also math. To give your brain full focus and p
 Most pixel art software you’ll find in browsers follows a standard set of tools, but **Myllo stands out** with its **unique control system**, providing extra accuracy and precision for creators.
 
 <p align="center">
-  <img src="https://i.postimg.cc/R046S4xx/Untitled31-20260302230259.png" width="200">
+  <img src="https://i.postimg.cc/28WxcQQG/IMG-20260309-063256.png" width="200">
 </p>
 
 Produced By *Elwandore Studios*
