@@ -12,7 +12,7 @@ Myllo a **Pixal** Art drawing Software.
   <img src="https://i.postimg.cc/76F8bwm3/diagram-(5).png" width="320">
 </p>
 
-diogram Created With [llyra] by xermendaz (https://llyra.netlify.app/)
+diogram Created With [llyra](https://llyra.netlify.app/) by xermendaz 
 
 ## What's Different With Myllo
 
