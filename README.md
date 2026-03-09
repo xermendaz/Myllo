@@ -13,7 +13,7 @@ Myllo a **Pixal** Art drawing Software.
 </p>
 
 <p align="center" style="font-size:small;">
-  Diagram created with <a href="https://llyra.netlify.app/">Llyra</a> by xermendaz
+  Diagram created with <a href="https://llyra.netlify.app/">Llyra</a> <i>by xermendaz</i>
   <a href="https://github.com/xermendaz/acl" target="_blank">
     <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" 
          width="20" height="20" 
