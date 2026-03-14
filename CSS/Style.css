@@ -342,9 +342,15 @@ body {
 #paletteWrap {
   display: flex; align-items: center; gap: 3px;
   max-width: 180px; overflow-x: auto; overflow-y: hidden;
-  scrollbar-width: none; flex-shrink: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) var(--surface2);
+  flex-shrink: 0;
+  cursor: grab;
 }
-#paletteWrap::-webkit-scrollbar { display: none; }
+#paletteWrap:active { cursor: grabbing; }
+#paletteWrap::-webkit-scrollbar { display: block; height: 4px; }
+#paletteWrap::-webkit-scrollbar-track { background: var(--surface2); }
+#paletteWrap::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 0; }
 #palette { display: flex; gap: 3px; align-items: center; flex-shrink: 0; }
 .pal-swatch {
   width: 20px; height: 20px;
@@ -581,12 +587,6 @@ body {
   letter-spacing: 1px; width: 100%; text-align: center;
 }
 
-#paletteWrap {
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: thin; /* already hidden, but you can show it on desktop */
-}
-
 /* ── EXPORT DROPDOWN ── */
 .export-wrap { position: relative; flex-shrink: 0; }
 .dropdown {
@@ -709,13 +709,46 @@ body.view-mode #canvasArea { cursor: default; }
   #appBody { flex-direction: column; }
 
   #layerPanel {
-    width: 100% !important; max-width: 100% !important; min-width: unset !important;
-    height: 150px; flex-shrink: 0;
-    border-left: none !important; border-top: 3px solid var(--border) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: unset !important;
+    height: 160px;
+    min-height: 160px;
+    max-height: 160px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    border-left: none !important;
+    border-top: 3px solid var(--border) !important;
+    display: flex !important;
+    flex-direction: column;
+    overflow: hidden;
   }
-  #layerList { display: flex; flex-direction: row; overflow-x: auto; overflow-y: hidden; padding: 4px; gap: 4px; }
-  .layer-item { min-width: 110px; margin-bottom: 0; flex-shrink: 0; }
+  #layerPanelHead {
+    flex-shrink: 0;
+    padding: 4px 8px;
+  }
+  #layerList {
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 6px;
+    gap: 6px;
+    flex: 1;
+    align-items: stretch;
+    -webkit-overflow-scrolling: touch;
+  }
+  .layer-item {
+    min-width: 120px;
+    max-width: 120px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
   .layer-thumb { display: none; }
+  .layer-opacity-row { display: none; }
 
   #canvasArea { flex: 1; }
   .coords { bottom: 10px; }
@@ -880,3 +913,15 @@ body.view-mode #canvasArea { cursor: default; }
 
 /* ── Small tweaks: modal spacing ── */
 #setupModal .setup-row:first-of-type { margin-top: 12px; }
+/* ── PALETTE MOUSEWHEEL SCROLL — add this JS to your page ──
+   Paste the following <script> into your HTML (near </body>):
+
+   <script>
+     document.getElementById('paletteWrap')?.addEventListener('wheel', function(e) {
+       if (e.deltaY !== 0) {
+         e.preventDefault();
+         this.scrollLeft += e.deltaY * 1.5;
+       }
+     }, { passive: false });
+   </script>
+── */
