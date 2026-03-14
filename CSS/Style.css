@@ -38,7 +38,7 @@ body {
   background-image: var(--dither-light);
   background-size: 2px 2px;
   color: var(--text);
-  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   font-size: 12px;
   -webkit-tap-highlight-color: transparent;
@@ -201,7 +201,7 @@ body {
 .start-btn:active { box-shadow: none; transform: translate(4px,4px); }
 
 /* ── APP LAYOUT ── */
-#app { display: flex; flex-direction: column; height: 100vh; }
+#app { display: flex; flex-direction: column; height: 100dvh; }
 #app.hidden { display: none; }
 #appBody { display: flex; flex: 1; overflow: hidden; flex-direction: row; }
 
