@@ -342,9 +342,15 @@ body {
 #paletteWrap {
   display: flex; align-items: center; gap: 3px;
   max-width: 180px; overflow-x: auto; overflow-y: hidden;
-  scrollbar-width: none; flex-shrink: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) var(--surface2);
+  flex-shrink: 0;
+  cursor: grab;
 }
-#paletteWrap::-webkit-scrollbar { display: none; }
+#paletteWrap:active { cursor: grabbing; }
+#paletteWrap::-webkit-scrollbar { display: block; height: 4px; }
+#paletteWrap::-webkit-scrollbar-track { background: var(--surface2); }
+#paletteWrap::-webkit-scrollbar-thumb { background: var(--accent); }
 #palette { display: flex; gap: 3px; align-items: center; flex-shrink: 0; }
 .pal-swatch {
   width: 20px; height: 20px;
@@ -581,12 +587,6 @@ body {
   letter-spacing: 1px; width: 100%; text-align: center;
 }
 
-#paletteWrap {
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: thin; /* already hidden, but you can show it on desktop */
-}
-
 /* ── EXPORT DROPDOWN ── */
 .export-wrap { position: relative; flex-shrink: 0; }
 .dropdown {
@@ -708,14 +708,53 @@ body.view-mode #canvasArea { cursor: default; }
 
   #appBody { flex-direction: column; }
 
+  /* ── LAYER PANEL: mobile horizontal strip ── */
   #layerPanel {
-    width: 100% !important; max-width: 100% !important; min-width: unset !important;
-    height: 150px; flex-shrink: 0;
-    border-left: none !important; border-top: 3px solid var(--border) !important;
+    /* sizing — JS still sets display:none / display:flex */
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: 130px !important;
+    min-height: 130px !important;
+    max-height: 130px !important;
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: 3px solid var(--border) !important;
+    overflow: hidden !important;
+    /* layout direction — must be column so head + list stack */
+    flex-direction: column !important;
   }
-  #layerList { display: flex; flex-direction: row; overflow-x: auto; overflow-y: hidden; padding: 4px; gap: 4px; }
-  .layer-item { min-width: 110px; margin-bottom: 0; flex-shrink: 0; }
-  .layer-thumb { display: none; }
+  #layerPanelHead {
+    flex-shrink: 0 !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    max-height: 32px !important;
+    padding: 4px 8px !important;
+  }
+  #layerList {
+    /* override the desktop flex:1 / overflow-y:auto / flex-direction:column */
+    flex: 1 1 0 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 4px 6px !important;
+    gap: 6px !important;
+    align-items: flex-start !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .layer-item {
+    min-width: 110px !important;
+    max-width: 110px !important;
+    width: 110px !important;
+    flex-shrink: 0 !important;
+    margin-bottom: 0 !important;
+    height: auto !important;
+  }
+  .layer-thumb { display: none !important; }
+  .layer-opacity-row { display: none !important; }
 
   #canvasArea { flex: 1; }
   .coords { bottom: 10px; }
@@ -879,4 +918,4 @@ body.view-mode #canvasArea { cursor: default; }
 @media(max-width: 700px) { #layerPanelClose { display: flex !important; align-items: center; justify-content: center; } }
 
 /* ── Small tweaks: modal spacing ── */
-#setupModal .setup-row:first-of-type { margin-top: 12px; } 
+#setupModal .setup-row:first-of-type { margin-top: 12px; }
