@@ -708,53 +708,62 @@ body.view-mode #canvasArea { cursor: default; }
 
   #appBody { flex-direction: column; }
 
-  /* ── LAYER PANEL: mobile horizontal strip ── */
   #layerPanel {
-    /* sizing — JS still sets display:none / display:flex */
     width: 100% !important;
     min-width: 0 !important;
     max-width: 100% !important;
-    height: 130px !important;
-    min-height: 130px !important;
-    max-height: 130px !important;
+    /* Use a safe fixed height that fits on small screens */
+    height: 90px !important;
+    min-height: 90px !important;
+    max-height: 90px !important;
     flex-shrink: 0 !important;
     flex-grow: 0 !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
     border-left: none !important;
     border-right: none !important;
     border-top: 3px solid var(--border) !important;
-    overflow: hidden !important;
-    /* layout direction — must be column so head + list stack */
-    flex-direction: column !important;
+    /* Make sure it never goes outside viewport */
+    position: relative !important;
+    z-index: 10 !important;
   }
   #layerPanelHead {
     flex-shrink: 0 !important;
-    height: 32px !important;
-    min-height: 32px !important;
-    max-height: 32px !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    max-height: 30px !important;
     padding: 4px 8px !important;
+    overflow: hidden !important;
   }
   #layerList {
-    /* override the desktop flex:1 / overflow-y:auto / flex-direction:column */
-    flex: 1 1 0 !important;
+    flex: 1 1 0% !important;
     display: flex !important;
     flex-direction: row !important;
+    flex-wrap: nowrap !important;
     overflow-x: auto !important;
     overflow-y: hidden !important;
     padding: 4px 6px !important;
     gap: 6px !important;
-    align-items: flex-start !important;
+    align-items: center !important;
     -webkit-overflow-scrolling: touch;
+    height: 60px !important;
+    max-height: 60px !important;
   }
   .layer-item {
-    min-width: 110px !important;
-    max-width: 110px !important;
-    width: 110px !important;
+    min-width: 100px !important;
+    max-width: 100px !important;
+    width: 100px !important;
+    height: 52px !important;
+    max-height: 52px !important;
     flex-shrink: 0 !important;
+    flex-grow: 0 !important;
     margin-bottom: 0 !important;
-    height: auto !important;
+    overflow: hidden !important;
+    padding: 4px 6px !important;
   }
   .layer-thumb { display: none !important; }
   .layer-opacity-row { display: none !important; }
+  .layer-item-top { margin-bottom: 0 !important; }
 
   #canvasArea { flex: 1; }
   .coords { bottom: 10px; }
@@ -772,7 +781,7 @@ body.view-mode #canvasArea { cursor: default; }
 /* ── MOBILE FLOATING BUTTON ── */
 #mobToolsFloater {
   display: none;
-  position: fixed; bottom: 18px; right: 16px;
+  position: fixed; bottom: 100px; right: 16px;
   width: 50px; height: 50px;
   border-radius: 0;
   background: var(--accent);
