@@ -344,8 +344,7 @@ body {
   max-width: 180px; overflow-x: auto; overflow-y: hidden;
   scrollbar-width: thin;
   scrollbar-color: var(--accent) var(--surface2);
-  flex-shrink: 0;
-  cursor: grab;
+  flex-shrink: 0; cursor: grab;
 }
 #paletteWrap:active { cursor: grabbing; }
 #paletteWrap::-webkit-scrollbar { display: block; height: 4px; }
@@ -708,14 +707,15 @@ body.view-mode #canvasArea { cursor: default; }
 
   #appBody { flex-direction: column; }
 
+  /* Layer panel sits as the last child of #appBody (flex column).
+     Give it a fixed height so #canvasArea (flex:1) takes the rest. */
   #layerPanel {
     width: 100% !important;
-    min-width: 0 !important;
     max-width: 100% !important;
-    /* Use a safe fixed height that fits on small screens */
-    height: 90px !important;
-    min-height: 90px !important;
-    max-height: 90px !important;
+    min-width: 0 !important;
+    height: 100px !important;
+    min-height: 100px !important;
+    max-height: 100px !important;
     flex-shrink: 0 !important;
     flex-grow: 0 !important;
     flex-direction: column !important;
@@ -723,16 +723,12 @@ body.view-mode #canvasArea { cursor: default; }
     border-left: none !important;
     border-right: none !important;
     border-top: 3px solid var(--border) !important;
-    /* Make sure it never goes outside viewport */
-    position: relative !important;
-    z-index: 10 !important;
   }
   #layerPanelHead {
     flex-shrink: 0 !important;
-    height: 30px !important;
-    min-height: 30px !important;
-    max-height: 30px !important;
-    padding: 4px 8px !important;
+    min-height: 28px !important;
+    max-height: 28px !important;
+    padding: 3px 8px !important;
     overflow: hidden !important;
   }
   #layerList {
@@ -742,24 +738,21 @@ body.view-mode #canvasArea { cursor: default; }
     flex-wrap: nowrap !important;
     overflow-x: auto !important;
     overflow-y: hidden !important;
-    padding: 4px 6px !important;
-    gap: 6px !important;
+    padding: 4px !important;
+    gap: 5px !important;
     align-items: center !important;
     -webkit-overflow-scrolling: touch;
-    height: 60px !important;
-    max-height: 60px !important;
   }
   .layer-item {
-    min-width: 100px !important;
-    max-width: 100px !important;
-    width: 100px !important;
-    height: 52px !important;
-    max-height: 52px !important;
+    min-width: 95px !important;
+    max-width: 95px !important;
+    width: 95px !important;
     flex-shrink: 0 !important;
     flex-grow: 0 !important;
     margin-bottom: 0 !important;
     overflow: hidden !important;
-    padding: 4px 6px !important;
+    padding: 3px 5px !important;
+    box-sizing: border-box !important;
   }
   .layer-thumb { display: none !important; }
   .layer-opacity-row { display: none !important; }
@@ -781,7 +774,7 @@ body.view-mode #canvasArea { cursor: default; }
 /* ── MOBILE FLOATING BUTTON ── */
 #mobToolsFloater {
   display: none;
-  position: fixed; bottom: 100px; right: 16px;
+  position: fixed; bottom: 18px; right: 16px;
   width: 50px; height: 50px;
   border-radius: 0;
   background: var(--accent);
