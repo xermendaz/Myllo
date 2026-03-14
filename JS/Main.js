@@ -325,6 +325,11 @@ document.getElementById('addPaletteBtn').addEventListener('click',function(){
   if(palette.indexOf(currentColor)<0){palette.unshift(currentColor);buildPaletteUI();setColor(currentColor);}
 });
 
+document.getElementById('paletteWrap').addEventListener('wheel', (e) => {
+  e.preventDefault();
+  e.currentTarget.scrollLeft += e.deltaY;
+}, { passive: false });
+
 /* ── Tool selection ── */
 function setTool(name){
   currentTool=name;
