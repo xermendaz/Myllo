@@ -886,10 +886,14 @@ function getExportRegion(){
 }
 
 function buildExportCanvas(){
+  // TRANSPARENCY MODEL:
+  // pixels[i] === null  → erased/transparent → exports as transparent (canvas starts clear)
+  // pixels[i] === '#ffffff' → white PAINT → exports as opaque white
+  // The display canvas has a white base so both look white on screen — but they are different on export.
   var reg=getExportRegion(),scale=getActiveExportScale();
   var ec=document.createElement('canvas');ec.width=reg.cols*scale;ec.height=reg.rows*scale;
   var ex=ec.getContext('2d');ex.imageSmoothingEnabled=false;
-  ex.fillStyle='#ffffff';ex.fillRect(0,0,ec.width,ec.height);
+  // Do NOT fill white — canvas starts fully transparent so null pixels remain transparent in PNG
   for(var li=layers.length-1;li>=0;li--){
     var lay=layers[li];if(!lay.visible)continue;
     ex.save();ex.globalAlpha=lay.opacity;
@@ -913,14 +917,27 @@ function doExportPNG(){
 function doExportSVG(){
   exportMenu.classList.remove('open');
   var reg=getExportRegion();
-  var parts=['<svg xmlns="http://www.w3.org/2000/svg" width="'+reg.cols+'" height="'+reg.rows+'" viewBox="0 0 '+reg.cols+' '+reg.rows+'"><rect width="'+reg.cols+'" height="'+reg.rows+'" fill="#fff"/>'];
-  for(var r=0;r<reg.rows;r++)for(var c=0;c<reg.cols;c++){
-    var pi2=idx(reg.sc+c,reg.sr+r);if(!pixels[pi2])continue;
-    parts.push('<rect x="'+c+'" y="'+r+'" width="1" height="1" fill="'+pixels[pi2]+'"/>');
+  // No background rect — SVG background is transparent by default.
+  // null pixels are simply omitted (transparent). '#ffffff' pixels draw opaque white rects.
+  var parts=['<svg xmlns="http://www.w3.org/2000/svg" width="'+reg.cols+'" height="'+reg.rows+'" viewBox="0 0 '+reg.cols+' '+reg.rows+'">' ];
+
+  // Flatten all visible layers bottom-to-top so SVG matches the canvas display
+  // Each layer gets its own <g opacity="..."> group
+  for(var li=layers.length-1;li>=0;li--){
+    var lay=layers[li];if(!lay.visible)continue;
+    var opStr=lay.opacity<1?(' opacity="'+lay.opacity.toFixed(3)+'"'):'';
+    parts.push('<g'+opStr+'>');
+    for(var r=0;r<reg.rows;r++)for(var c=0;c<reg.cols;c++){
+      var pi2=idx(reg.sc+c,reg.sr+r);
+      if(!lay.pixels[pi2])continue;
+      parts.push('<rect x="'+c+'" y="'+r+'" width="1" height="1" fill="'+lay.pixels[pi2]+'"/>');
+    }
+    parts.push('</g>');
   }
+
   parts.push('</svg>');
   triggerDownload(URL.createObjectURL(new Blob([parts.join('\n')],{type:'image/svg+xml'})),'pixel-art.svg');
-  showToast('SVG exported');
+  showToast('SVG exported (transparent bg)');
 }
 document.getElementById('exportPNG').addEventListener('click',doExportPNG);
 document.getElementById('exportSVG').addEventListener('click',doExportSVG);
